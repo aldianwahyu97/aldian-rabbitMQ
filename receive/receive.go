@@ -27,14 +27,13 @@ func main(){
 	// PENTING! Sesuaikan Key Sender dengan Receiver agar pesan diterima oleh Receiver
 	
 	q, err := ch.QueueDeclare(
-		"message-from-php", //name
+		"message-from-golang", //name
 		false, // durable
 		false, // delete when unused
 		false, // exclusive
 		false, // no-wait
 		nil, // arguments
 	)
-
 	failOnError(err, "Gagal mendeklarasikan Queue")
 
 	msgs, err := ch.Consume(
@@ -46,11 +45,9 @@ func main(){
 		false, // no-wait
 		nil, // args
 	)
-
 	failOnError(err, "Gagal mendaftarkan consumer")
 
 	forever := make (chan bool)
-
 	go func(){
 		for d := range msgs{
 			log.Printf("Received a Message From Golang: %s", d.Body)
